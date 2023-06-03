@@ -1,32 +1,30 @@
 # follow_me
-## Overview
+
 自己位置推定のアルゴリズムを利用した、精度の高いfollow meのプログラムです。
 
-## setup
+## Setup
+
 ```
-https://github.com/rionehome/follow_me
-https://github.com/rionehome/move
-https://github.com/EAIBOT/ydlidar
-https://github.com/rionehome/rione_msgs
-https://github.com/rionehome/emergency_stop
+cd ~/catkin_ws/src
+git clone https://github.com/rione/home_follow_me follow_me
+git clone -b noetic-devel https://github.com/ros-perception/laser_filters
+cd ~/catkin_ws
+catkin_make
 ```
-これらのパッケージをcloneした上でインストール・ビルドを行ってください。
 
 ## Usage
+
 ```
-roslaunch follow_me follow.launch  
+roslaunch follow_me follow_me.launch
 ```
 
-## Node
-**`name` Follow**
+## Topics
 
-### Subscribe Topic
+### Subscribe
 
-* **`/scan`** ydlidarの情報受け取り（ sensor_msgs/LaserScan ）
+- `/scan` lidarの情報受け取り（ sensor_msgs/LaserScan ）
+- `/follow_me/control` follow me 開始・終了のシグナル受け取り ( std_msgs/String )
 
-* **`/follow_me/control`** follow me 開始・終了のシグナル受け取り ( std_msgs/String )
+### Publish
 
-
-### Publish Topic
-
-* **`/move/velocity`** 制御パラメータ送信 ( move/velocity )
+- `/mobile_base/commands/velocity` 制御パラメータ送信 ( geometry_msgs/Twist )

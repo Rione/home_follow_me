@@ -4,11 +4,11 @@ project(follow_me)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
-#  move
-#  rione_msgs
   roscpp
+  std_msgs
   geometry_msgs
-#  rospy
+  sensor_msgs
+  laser_filters
 )
 
 catkin_package(

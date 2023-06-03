@@ -23,8 +23,8 @@ roslaunch follow_me follow_me.launch
 ### Subscribe
 
 - `/scan` lidarの情報受け取り（ sensor_msgs/LaserScan ）
-- `/follow_me/control` follow me 開始・終了のシグナル受け取り ( std_msgs/String )
+- `/follow_me/command` follow me 開始・終了のシグナル受け取り ( std_msgs/String )
 
 ### Publish
 
-- `/mobile_base/commands/velocity` 制御パラメータ送信 ( geometry_msgs/Twist )
+- `/cmd_vel` 制御パラメータ送信 ( geometry_msgs/Twist )

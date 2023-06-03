@@ -1,12 +1,11 @@
 #include "../include/follow_me/follow_me.h"
 
 Follow::Follow(ros::NodeHandle *n) {
-    printf("Start class of 'Follow'\n");
-    this->ydlidar_sub = n->subscribe("/scan", 1, &Follow::ydlidar_callback, this);
-    this->odom_sub = n->subscribe("/odom", 1000, &Follow::odom_callback, this);
-    this->signal_sub = n->subscribe("/follow_me/control", 1000, &Follow::signal_callback, this);
-    // this->velocity_pub = n->advertise<rione_msgs::Velocity>("/move/velocity", 1000);
-    this->twist_pub = n->advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 10);
+    this->ydlidar_sub = n->subscribe("/scan", 10, &Follow::ydlidar_callback, this);
+    this->odom_sub = n->subscribe("/odom", 10, &Follow::odom_callback, this);
+    this->signal_sub = n->subscribe("/follow_me/command", 10, &Follow::signal_callback, this);
+    this->twist_pub = n->advertise<geometry_msgs::Twist>("/cmd_vel", 10);
+
     n->getParam("/follow_me/status", status);
 }
 

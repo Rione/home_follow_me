@@ -1,15 +1,7 @@
+<?xml version="1.0"?>
+
 <launch>
-	<node pkg="follow_me" type="follow_me" name="follow_me" output="screen">
+	<node pkg="follow_me" type="follow_me" name="follow_me_node" output="screen">
 	    <param name="status" value="true"/>
-		<remap from="/scan" to="/scan_filtered" />
-		<remap from="/cmd_vel" to="/mobile_base/commands/velocity" />
 	</node>
-
-	<node pkg="laser_filters" type="scan_to_scan_filter_chain" name="scan_to_scan_filter_chain" output="screen">
-        <rosparam command="load" file="$(find follow_me)/config/laser_filters.yaml" />
-    </node>
-
-	<!-- kore nani? -->
-	<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser4"
-	args="0.2245 0.0 0.2 0.0 0.0  0.0 /base_footprint /laser_frame 40" /> -->
 </launch>

@@ -4,7 +4,9 @@ Follow::Follow(ros::NodeHandle *n) {
     this->ydlidar_sub = n->subscribe("/scan", 10, &Follow::ydlidar_callback, this);
     this->odom_sub = n->subscribe("/odom", 10, &Follow::odom_callback, this);
     this->signal_sub = n->subscribe("/follow_me/command", 10, &Follow::signal_callback, this);
+
     this->twist_pub = n->advertise<geometry_msgs::Twist>("/cmd_vel", 10);
+    this->player_point_pub = n->advertise<std_msgs::Float64MultiArray>("/follow_me/player_point", 10);
 
     n->getParam("/follow_me/status", status);
 }
@@ -76,15 +78,18 @@ void Follow::ydlidar_callback(const sensor_msgs::LaserScan::ConstPtr &msgs) {
     if (status) {
         player_index = max_index;
         player_point = cv::Point2d(ydlidar_points[player_index]);
-        // rione_msgs::Velocity velocity;
-        // velocity.linear_rate = calcStraight(player_point);
-        // velocity.angular_rate = calcAngle(player_point);
-        // velocity_pub.publish(velocity);
+
         geometry_msgs::Twist twist;
         twist.linear.x = calcStraight(player_point);
         calcStraight(player_point);
         twist.angular.z = calcAngle(player_point) * 5;
         this->twist_pub.publish(twist);
+
+        std_msgs::Float32MultiArray array;
+        array.data.resize(2);
+        array.data[0] = player_point.x;
+        array.data[1] = player_point.y;
+        this->player_point_pub.publish(array);
     }
     printf("real position");
     cv::Point2d new_position = this->transform_absolute_to_relative(player_point);
@@ -182,7 +187,7 @@ void Follow::view_ydlidar(const std::vector<cv::Point2d> &points) {
 }
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "follow_me");
+    ros::init(argc, argv, "follow_me_node");
     ros::NodeHandle n;
     Follow follow(&n);
     ros::spin();

@@ -18,13 +18,16 @@ catkin_make
 roslaunch follow_me follow_me.launch
 ```
 
-## Topics
+## follow_me_node
 
-### Subscribe
+### Subscribe Topics
 
 - `/scan` lidarの情報受け取り（ sensor_msgs/LaserScan ）
-- `/follow_me/command` follow me 開始・終了のシグナル受け取り ( std_msgs/String )
+- `/follow_me/command` follow_me 開始、終了のシグナル受け取り ( std_msgs/String )
+    - `start` で開始
+    - `stop` で停止
 
-### Publish
+### Publish Topics
 
 - `/cmd_vel` 制御パラメータ送信 ( geometry_msgs/Twist )
+- `/follow_me/player_point` オペレーターの予測位置 (std_msgs/Float32MultiArray )

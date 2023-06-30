@@ -1,5 +1,6 @@
 //
 // Created by migly on 19/07/13.
+// Modified by Shuto on 23/06/30
 //
 #include <ros/ros.h>
 #include <std_msgs/String.h>
@@ -8,6 +9,7 @@
 #include <geometry_msgs/Twist.h>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/highgui.hpp>
+#include <std_msgs/Float32MultiArray.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <cmath>
 #include <iostream>
@@ -40,6 +42,7 @@ public:
     ros::Subscriber signal_sub;
     ros::Subscriber odom_sub;
     ros::Publisher twist_pub;
+    ros::Publisher player_point_pub;
 
     std_msgs::Float64MultiArray info;
     std::vector<double> ydlidar_ranges;
@@ -82,10 +85,6 @@ public:
             this->status = false;
 
         if (!status) {
-            // rione_msgs::Velocity velocity;
-            // velocity.linear_rate = 0;
-            // velocity.angular_rate = 0;
-            // velocity_pub.publish(velocity);
             geometry_msgs::Twist twist;
             twist.linear.x = 0;
             twist.linear.y = 0;
